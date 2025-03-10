@@ -1,28 +1,37 @@
 import asyncio
+from vosk import Model, KaldiRecognizer
+import pyaudio
+import json
+import pyttsx3
 
-active = asyncio.Event()
+# # Load the offline model
+# model = Model("vosk-model-small-en-us-0.15")
+# recognizer = KaldiRecognizer(model, 16000)
 
-async def test1():
-    if not active.is_set() and h_voice[-1] == "start":
-        active.set()
-        print("Test start")
-        try:
-            await asyncio.sleep(15)  # Simulating a long-running task
-        except asyncio.CancelledError:
-            print("Task was cancelled!")  # Handle cancellation
-        finally:
-            print("TestDone")
-            active.clear()
+# # Initialize microphone input
+# mic = pyaudio.PyAudio()
+# stream = mic.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8192)
+# stream.start_stream()
 
-# Running and cancelling the task
-async def main():
-    global h_voice
-    h_voice = ["start"]  # Simulating external voice command
 
-    task = asyncio.create_task(test1())  # Start test1 as a task
-    await asyncio.sleep(5)  # Let it run for 5 seconds
-    task.cancel()  # Cancel the task
-    await asyncio.sleep(1)  # Give time for cleanup
-    print("Main Done")
+# history_commands = []
+# flagger = asyncio.Event()
+# active = asyncio.Event()
 
-asyncio.run(main())
+
+# engine = pyttsx3.init()
+# engine.say("Hvordan går det?")
+# engine.runAndWait()
+import pyttsx3
+
+engine = pyttsx3.init()
+voices = engine.getProperty('voices')
+
+# for i, voice in enumerate(voices):
+#     print(f"idx: {i} Voice: {voice.name}, ID: {voice.id}, Languages: {voice.languages}")
+
+#     engine.say("こんにちは、元気ですか?")
+#     engine.runAndWait()
+
+engine.say("LEFT FLIP INITIATED. EXECUTING NOW.")
+engine.runAndWait()

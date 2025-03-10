@@ -92,7 +92,7 @@ async def drone_command():
                 active.set()
                 await asyncio.sleep(0.6)
                 root.send_rc_control(0, 0, 0, 100)
-                await asyncio.sleep(5)
+                await asyncio.sleep(10)
                 print("Finished searched")
                 root.send_rc_control(0, 0, 0, 0)
                 active.clear()
