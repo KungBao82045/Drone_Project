@@ -1,2 +1,2 @@
 # License Agreement
-Access to this repository is strictly limited to trusted users approved by the repository owner. Unauthorized users are prohibited to view, modify, distribute and any parts of this codebase unless given authorization. Failure to comply will result in lost access to ths repository.
+Access to this repository is strictly limited to trusted users approved by the repository owner. Unauthorized users are prohibited to view, modify, distribute or any parts of this codebase unless given authorization. Failure to comply will result in lost access to ths repository.
