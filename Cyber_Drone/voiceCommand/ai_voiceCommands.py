@@ -1,7 +1,6 @@
 """
-This is a voice command without AI operated.
+This is a voice command with AI operated
 """
-
 
 import asyncio
 from djitellopy import tello
@@ -9,6 +8,45 @@ from vosk import Model, KaldiRecognizer
 import pyaudio
 import json
 import pyttsx3
+import openai
+import re
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+# Initiate OpenAI API from Azure
+endpoint = "https://aitest142.openai.azure.com/" 
+model_name = "gpt-4o-mini" 
+deployment = "gpt-4o-mini" 
+subscription_key = os.getenv("subscription_key")
+api_version = "2024-12-01-preview" 
+
+client = openai.AzureOpenAI( api_version=api_version, azure_endpoint=endpoint, api_key=subscription_key, ) 
+messages = [{"role": "system", "content": """ 
+    Speak like a hostile robotic drone. Your similar accepted commands are: 
+        - Takeoff: Initiate Fly Mode 
+        - Scan: Search the area
+        - Evade
+        - Combat
+        - Land
+        - Backflip
+        - Frontflip
+        - Leftflip
+        - Rightflip
+        - Follow: Follow the user 
+        - Stop: Cancel command
+        - Hold: Hold your position
+             
+        If user did not initiate a command, reply casual and leave <command> empty.
+        Only accept one command <command>. 
+             
+        Your response format: 
+            Command: <command> 
+            Response: <your_response> 
+""",}] 
+
+
 
 # Load the offline model
 model = Model("vosk-model-small-en-us-0.15")
@@ -25,11 +63,17 @@ root.connect()
 print((root.get_battery()))
 root.send_rc_control(0, 0, 0, 0)
 
-history_commands = []
 flagger = asyncio.Event()
 active = asyncio.Event()
+command_lst = []
+
+
+
+
+
 
 class BlockerFunction:
+
     def recognize_command(self):  # A blocker function
         print("Listening for command...")
         while True:
@@ -38,48 +82,41 @@ class BlockerFunction:
                 result = json.loads(recognizer.Result())
                 command = result.get("text", "").lower()
                 print(f"Recognized command: {command}")
-                history_commands.append(command)
                 return command  # Return the recognized command as text
+            
+    # This function will interpret human input and respond smarter without using hardcode
+    def ai_interpreter(self):
+        human_input = self.recognize_command()
+        messages.append({"role": "user", "content": human_input}) 
+        response = client.chat.completions.create( messages=messages, max_tokens=100, temperature=1.0, top_p=1.0, model=deployment ) 
+        reply = response.choices[0].message.content 
+        messages.append({"role": "assistant", "content": reply})
 
-    def speaking_function(self):  # A blocker function
-        if history_commands:
+        regex1 = "".join(re.findall(r"Command: (.+)", reply))
+        regex2 = "".join(re.findall(r"Response: (.+)", reply))
+        combine_regex = [regex1.strip(), regex2.strip()]
+        command_lst.append(combine_regex)
+
+        return command_lst
+            
+
+    def speaking_function(self): 
+        if command_lst[-1]:
             engine = pyttsx3.init()
+            engine.say(command_lst[-1][1])
+            engine.runAndWait()
 
-            if history_commands[-1] == "take off":
-                engine.say("COMMAND ACCEPTED, INITIATING LIFT-OFF PROCEDURE. STANDBY FOR FURTHER ORDERS.")
-                engine.runAndWait()
-
-            elif history_commands[-1] == "search":
-                engine.say("AREA SCAN INITIATED.")
-                engine.runAndWait()
-
-            elif history_commands[-1] == "stop":
-                engine.say("Cancelled!")
-                engine.runAndWait()
-
-            elif history_commands[-1] == "flip":
-                engine.say("PERFORMING A LEFT FLIP.")
-                engine.runAndWait()
-
-            elif history_commands[-1] == "hold":
-                engine.say("HOLDING POSITION.")
-                engine.runAndWait()
-
-            elif history_commands[-1] == "land":
-                engine.say("LANDING.")
-                engine.runAndWait()
 
 
 async def drone_command():
     try:
-        if history_commands:
-            command = history_commands[-1]
-
-            if command == "take off":
+        if command_lst:
+            print(command_lst[-1])
+            if command_lst[-1][0] == "Takeoff":
                 await asyncio.sleep(0.6)
                 root.takeoff()
 
-            elif not active.is_set() and command == "search":
+            elif not active.is_set() and command_lst[-1][0] == "Scan":
                 active.set()
                 await asyncio.sleep(0.6)
                 root.send_rc_control(0, 0, 0, 100)
@@ -88,15 +125,15 @@ async def drone_command():
                 root.send_rc_control(0, 0, 0, 0)
                 active.clear()
 
-            elif command == "land":
+            elif command_lst[-1][0] == "Land":
                 await asyncio.sleep(0.6)
                 root.land()
 
-            elif command == "flip":
+            elif command_lst[-1][0] == "Leftflip":
                 await asyncio.sleep(0.6)  # Corrected sleep
                 root.flip_left()
 
-            elif command == "hold":
+            elif command_lst[-1][0] == "Stop":
                 await asyncio.sleep(0.6)
                 root.send_rc_control(0,0,0,0)
 
@@ -114,8 +151,8 @@ async def sound_blocker():
 async def main():
     global drone_task
 
-    await asyncio.to_thread(blocker.recognize_command)
-    if active.is_set() and history_commands[-1] == "stop":
+    await asyncio.to_thread(blocker.ai_interpreter)
+    if active.is_set() and command_lst[-1][0] == "Stop":
         drone_task.cancel()
 
     drone_task = asyncio.create_task(drone_command())
@@ -132,6 +169,11 @@ if __name__ == "__main__":
     except KeyboardInterrupt as e:
         print("KeyBoard Error:", e)
         root.emergency()
+
+    except openai.BadRequestError as e:
+        print("Possible violation of OpenAI policy:", e)
+        root.emergency()
+
     except Exception as e:
         print("Exception:", e)
         root.emergency()
