@@ -7,6 +7,7 @@ import os
 # Load .env file
 load_dotenv()
 
+# IT-Apprentice completed. You are no longer working in a company. From now. You need your own Azure if you want to continue with this project :D
 endpoint = "https://aitest142.openai.azure.com/" 
 model_name = "gpt-4o-mini" 
 deployment = "gpt-4o-mini" 
