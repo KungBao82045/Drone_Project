@@ -22,6 +22,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
 
-      - name: Create file
+      - name: Create a new file
         run: |
-          echo "New file created!" > testcicd.txt
+          echo "Created on $(date)" > "newfile_$(date +'%Y%m%d_%H%M%S').txt"
+
+      - name: Commit and push the new file
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add .
+          git commit -m "Add new file at $(date)"
+          git push
