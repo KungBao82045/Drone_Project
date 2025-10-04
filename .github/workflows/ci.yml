@@ -25,3 +25,7 @@ jobs:
       - name: Echo Test
         run: |
           echo "Hello, World!"
+
+      - name: Python Run
+        run: |
+          python cicd_test.py
