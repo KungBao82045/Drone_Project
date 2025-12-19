@@ -1,5 +1,5 @@
 # About this project
-Control your drone using voice commands! With the implementation of AI, your drone can now communicate through natural language (english).
+Control your drone using voice commands! With the implementation of OpenAI API, your drone can now communicate through natural language (english).
 As for 09/04/25, this is my latest project, to demonstrate my creativity. 
 
 # Note
