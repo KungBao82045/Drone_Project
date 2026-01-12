@@ -1,3 +1,6 @@
+# About this project
+The system will fetch the voice commands from the user and then structures response data from Azure OpenAI before forwarding the command to the drone over Wi-Fi. 
+
 # Before you start (Important!)
 Because you need to connect your drone through Wi-Fi, as well as connect to the internet to fetch the API endpoint, you require an extra Wi-Fi adapter to simultaneously connect to your drone and the internet. I recommend testing your drone in a safe environment with a good lighting source and a non-reflective surface to prevent confusing your drone's sensor. In case of an unstable flight, stop the script immediately.
 
