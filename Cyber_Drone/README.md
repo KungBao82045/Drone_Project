@@ -14,7 +14,10 @@ You need:
 
 # How to start
 This is the Python script you are going to use for this dron project: Cyber_Drone/voiceCommand/ai_voiceCommands.py
-1. Execute this command to install the required libraries: pip install -r requirements.txt
+1. Open this project in PyCharm and execute this command to install the required libraries: pip install -r requirements.txt
+      OR
+   Install the libraries manually
+   
 2. Create a file called ".env" in "Cyber_Drone/voiceCommand/" and paste your OpenAI API token with this format: *subscription_key=<YOUR_API_TOKEN>*. A good security practice is to never paste your API token directly into the source code.
 3. Replace the following variables in ai_voiceCommands.py (endpoint, model_name, deployment and api_version) with your own.
 4. Use your extra Wi-Fi adapter to connect to your drone.
