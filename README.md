@@ -24,5 +24,3 @@ This is the Python script you are going to use for this drone project: Cyber_Dro
   * Stop
   * Scan
 
-As for 09/04/25, this is my latest project.
-
