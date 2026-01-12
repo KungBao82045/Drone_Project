@@ -17,7 +17,7 @@ This is the Python script you are going to use for this drone project: Cyber_Dro
 2. Create a file called ".env" in "Cyber_Drone/voiceCommand/" and paste your OpenAI API token with this format: subscription_key=<YOUR_API_TOKEN>. A good security practice is to never paste your API token directly into the source code.
 3. Replace the following variables in ai_voiceCommands.py (endpoint, model_name, deployment, and api_version) with your own.
 4. Use your extra Wi-Fi adapter to connect to your drone.
-5. Test your drone in a safe area by executing ai_voiceCommands.py script from "Cyber_Drone" folder and NOT "Drone_Project" The following commands that are in function are:
+5. Test your drone in a safe area by executing ai_voiceCommands.py script from "Cyber_Drone" folder and NOT "Drone_Project". The following commands that are in function are:
   * Takeoff
   * Land
   * Leftflip
