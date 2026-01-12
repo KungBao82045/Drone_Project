@@ -3,6 +3,6 @@ Control your drone using voice commands! With the implementation of OpenAI API, 
 As for 09/04/25, this is my latest project.
 
 # Note
-Because you need to connect your drone through WiFi, as well as connecting to the internet to fetch API endpoint, you need a WiFi adapter. With a WiFi adapter, you can connect your laptop to the internet, and a wifi adapter to your drone. 
+Because you need to connect your drone through WiFi, as well as connecting to the internet and fetch the API endpoint, you need an extra WiFi adapter to connect your drone and the internet at the same time. 
 
 You need your own OpenAI subscription token in Azure before executing a Python script located in "Cyber_Drone/voiceCommand/ai_voiceCommands.py" 
