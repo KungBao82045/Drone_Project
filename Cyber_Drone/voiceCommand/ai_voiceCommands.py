@@ -1,5 +1,5 @@
 """
-This is a voice command with AI operated
+This is a voice command with OpenAI.
 """
 
 import asyncio
