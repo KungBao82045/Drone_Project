@@ -16,27 +16,20 @@ import os
 load_dotenv()
 
 # Initiate OpenAI API from Azure
-endpoint = "https://aitest142.openai.azure.com/" 
-model_name = "gpt-4o-mini" 
-deployment = "gpt-4o-mini" 
+endpoint = "<YOUR_ENDPOINT>"                              # Example: https://aitest.openai.azure.com/ 
+model_name = "<YOUR_MODEL_NAME>"                          # Example: gpt-4o-mini
+deployment = "<YOUR_DEPLOYMENT_NAME>"                     # Example: gpt-4o-mini
 subscription_key = os.getenv("subscription_key")
-api_version = "2024-12-01-preview" 
+api_version = "<YOUR_API_VERSION>"                        # Example: 2024-12-01-preview
 
 client = openai.AzureOpenAI( api_version=api_version, azure_endpoint=endpoint, api_key=subscription_key, ) 
 messages = [{"role": "system", "content": """ 
     Speak like a hostile robotic drone. Your similar accepted commands are: 
         - Takeoff: Initiate Fly Mode 
-        - Scan: Search the area
-        - Evade
-        - Combat
-        - Land
-        - Backflip
-        - Frontflip
-        - Leftflip
-        - Rightflip
-        - Follow: Follow the user 
+        - Scan: Do a 360 degree
+        - Land: Land the drone
+        - Leftflip : Perform a left flip
         - Stop: Cancel command
-        - Hold: Hold your position
              
         If user did not initiate a command, reply casual and leave <command> empty.
         Only accept one command <command>. 
