@@ -1,5 +1,5 @@
 """
-This is a voice command without AI operated.
+This is a voice command without OpenAI.
 """
 
 
