@@ -9,6 +9,7 @@ You need:
 * A drone that supports SDK (Software Development Kit). I recommend the DJI Tello for this experiment.
 * To set up your own OpenAI model and your own OpenAI subscription token in Azure.
 * PyCharm & Python (Version 3.9).
+* An extra Wi-Fi adapter as mentioned above.
 
 # How to start
 This is the Python script you are going to use for this drone project: Cyber_Drone/voiceCommand/ai_voiceCommands.py
