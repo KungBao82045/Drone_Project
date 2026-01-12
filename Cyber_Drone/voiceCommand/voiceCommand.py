@@ -1,5 +1,6 @@
 """
-This is a voice command without OpenAI.
+This is a voice command without OpenAI. No need to use internet connection.
+Using Vosk for offline speech recognition and pyttsx3 for text-to-speech.
 """
 
 
